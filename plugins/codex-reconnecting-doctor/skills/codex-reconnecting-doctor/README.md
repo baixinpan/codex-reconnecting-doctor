@@ -6,28 +6,15 @@ Codex skill for diagnosing and repairing Codex Desktop reconnect loops caused by
 
 Inspired by the ergonomics of mature `doctor` tools such as Homebrew `brew doctor`, Flutter `flutter doctor`, React Native Doctor, and Expo Doctor: report first, explain each finding, modify files only when explicitly requested, and produce output that can be shared in issues.
 
-## Install from the Codex Plugin Marketplace Source
+## Install
 
-This repository is structured as a Codex plugin marketplace. Add it as a marketplace source:
-
-```bash
-codex plugin marketplace add baixinpan/codex-reconnecting-doctor
-codex plugin marketplace upgrade codex-reconnecting-doctor
-```
-
-Then restart Codex, open **Plugins**, choose the **Codex Reconnecting Doctor** marketplace, and install the plugin.
-
-Codex plugins are the installable distribution unit for reusable skills. The public OpenAI-curated Plugin Directory is not a self-serve publishing channel; this repo marketplace is the direct install path for public users.
-
-## Install as a Local Skill
-
-For local development or manual installation, copy this folder to:
+Install from a GitHub repo with Codex's skill installer, or copy this folder to:
 
 ```bash
 ~/.codex/skills/codex-reconnecting-doctor
 ```
 
-Restart Codex Desktop after installing so the skill is discovered. For normal users, prefer the plugin marketplace install above.
+Restart Codex Desktop after installing so the skill is discovered.
 
 ## Use
 
@@ -69,16 +56,6 @@ By default the report redacts sensitive-looking URL credentials and tokens. Use 
 - Use `--dry-run` to preview edits.
 - Existing config files are backed up before modification.
 - Proxy ports are verified with HTTP CONNECT before they are written.
-
-## Repository Layout
-
-```text
-.agents/plugins/marketplace.json
-plugins/codex-reconnecting-doctor/.codex-plugin/plugin.json
-plugins/codex-reconnecting-doctor/skills/codex-reconnecting-doctor/SKILL.md
-```
-
-The root `SKILL.md` is kept for local skill development. The installable plugin copies the same skill under `plugins/codex-reconnecting-doctor/skills/`.
 
 ## License
 

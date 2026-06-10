@@ -6,28 +6,15 @@
 
 这个项目借鉴了成熟 `doctor` 工具的交互方式，例如 Homebrew `brew doctor`、Flutter `flutter doctor`、React Native Doctor 和 Expo Doctor：先诊断、逐项解释、只有明确要求时才修改文件，并尽量输出可以直接贴到 issue 里的报告。
 
-## 通过 Codex 插件市场源安装
+## 安装
 
-这个仓库已经按 Codex plugin marketplace 结构组织。用户可以把它添加为插件市场源：
-
-```bash
-codex plugin marketplace add baixinpan/codex-reconnecting-doctor
-codex plugin marketplace upgrade codex-reconnecting-doctor
-```
-
-然后重启 Codex，打开 **Plugins**，选择 **Codex Reconnecting Doctor** marketplace，安装插件。
-
-Codex 里，plugin 是面向用户安装和分发的单元，skill 是插件内部可复用工作流。OpenAI-curated 公共插件目录目前不是自助上架通道；这个 GitHub repo marketplace 是面向公开用户的直接安装方式。
-
-## 作为本地 Skill 安装
-
-开发或手动安装时，可以把目录复制到：
+通过 Codex 的 skill installer 从 GitHub 安装，或者把整个目录复制到：
 
 ```bash
 ~/.codex/skills/codex-reconnecting-doctor
 ```
 
-安装后需要完全重启 Codex Desktop，skill 才会被发现。普通用户建议优先使用上面的插件市场源安装方式。
+安装后需要完全重启 Codex Desktop，skill 才会被发现。
 
 ## 使用
 
@@ -76,16 +63,6 @@ python3 scripts/codex_reconnect_doctor.py --disable-websockets
 - 使用 `--dry-run` 可以预览修改。
 - 修改前会备份已有配置文件。
 - 只有通过 HTTP CONNECT 验证的端口才会写入 `HTTP_PROXY` 和 `HTTPS_PROXY`。
-
-## 仓库结构
-
-```text
-.agents/plugins/marketplace.json
-plugins/codex-reconnecting-doctor/.codex-plugin/plugin.json
-plugins/codex-reconnecting-doctor/skills/codex-reconnecting-doctor/SKILL.md
-```
-
-根目录 `SKILL.md` 用于本地 skill 开发。真正作为插件安装时，会使用 `plugins/codex-reconnecting-doctor/skills/` 下的同名 skill。
 
 ## 常见处理路径
 

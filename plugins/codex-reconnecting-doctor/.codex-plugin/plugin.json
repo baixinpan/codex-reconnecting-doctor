@@ -1,0 +1,24 @@
+{
+  "name": "codex-reconnecting-doctor",
+  "version": "0.1.0",
+  "description": "Diagnose and repair Codex Desktop reconnect loops, proxy drift, and WebSocket transport issues.",
+  "author": {
+    "name": "Baixin Pan"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Reconnecting Doctor",
+    "shortDescription": "Diagnose Codex reconnecting loops.",
+    "longDescription": "A safe-by-default doctor plugin for Codex Desktop reconnecting loops. It verifies local HTTP and mixed proxy ports, repairs ~/.codex/.env only when requested, checks provider transport settings, supports JSON reports, and can disable WebSocket transport for the active provider when needed.",
+    "developerName": "Baixin Pan",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Diagnose Codex Desktop reconnect loops",
+      "Verify local HTTP and mixed proxy ports",
+      "Repair Codex proxy environment variables",
+      "Check provider WebSocket transport settings",
+      "Generate JSON diagnostic reports"
+    ],
+    "defaultPrompt": "Use $codex-reconnecting-doctor to diagnose why Codex Desktop is stuck reconnecting."
+  }
+}
