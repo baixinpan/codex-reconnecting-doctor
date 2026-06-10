@@ -6,28 +6,53 @@ Codex skill for diagnosing and repairing Codex Desktop reconnect loops caused by
 
 Inspired by the ergonomics of mature `doctor` tools such as Homebrew `brew doctor`, Flutter `flutter doctor`, React Native Doctor, and Expo Doctor: report first, explain each finding, modify files only when explicitly requested, and produce output that can be shared in issues.
 
-## Install from the Codex Plugin Marketplace Source
+## Installation
 
-This repository is structured as a Codex plugin marketplace. Add it as a marketplace source:
+There are two supported installation paths.
+
+### 1. Install from the Codex Plugin Marketplace
+
+Add this repository as a Codex plugin marketplace, then install the plugin from that marketplace:
 
 ```bash
 codex plugin marketplace add baixinpan/codex-reconnecting-doctor
+codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+If the marketplace has already been added and you only want to refresh it, run:
+
+```bash
 codex plugin marketplace upgrade codex-reconnecting-doctor
 ```
 
-Then restart Codex, open **Plugins**, choose the **Codex Reconnecting Doctor** marketplace, and install the plugin.
+You can also install through the Codex app UI after adding the marketplace: open **Plugins**, choose **Codex Reconnecting Doctor**, then install `codex-reconnecting-doctor`.
 
-Codex plugins are the installable distribution unit for reusable skills. The public OpenAI-curated Plugin Directory is not a self-serve publishing channel; this repo marketplace is the direct install path for public users.
+### 2. Install from Source
 
-## Install as a Local Skill
-
-For local development or manual installation, copy this folder to:
+Clone the repository:
 
 ```bash
-~/.codex/skills/codex-reconnecting-doctor
+git clone https://github.com/baixinpan/codex-reconnecting-doctor.git
+cd codex-reconnecting-doctor
 ```
 
-Restart Codex Desktop after installing so the skill is discovered. For normal users, prefer the plugin marketplace install above.
+For local skill development, copy or symlink the source skill into your Codex skills directory:
+
+```bash
+mkdir -p ~/.codex/skills
+ln -s "$PWD" ~/.codex/skills/codex-reconnecting-doctor
+```
+
+For local plugin development, add the cloned repository as a local marketplace:
+
+```bash
+codex plugin marketplace add "$PWD"
+codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+Restart Codex Desktop after installing.
+
+Note: OpenAI-curated public Plugin Directory publishing is not currently a self-serve flow. This repository is distributed as a public GitHub marketplace source and as source code.
 
 ## Use
 
