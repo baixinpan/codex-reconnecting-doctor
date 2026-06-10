@@ -2,108 +2,113 @@
 
 [中文文档](README.zh-CN.md)
 
-Codex skill for diagnosing and repairing Codex Desktop reconnect loops caused by stale proxy settings, local proxy port changes, WebSocket/WSS failures, or provider transport mismatch.
+A Codex plugin that helps diagnose and repair Codex Desktop `Reconnecting` loops caused by proxy changes, broken proxy inheritance, WebSocket/WSS transport failures, or stale Codex configuration.
 
-Inspired by the ergonomics of mature `doctor` tools such as Homebrew `brew doctor`, Flutter `flutter doctor`, React Native Doctor, and Expo Doctor: report first, explain each finding, modify files only when explicitly requested, and produce output that can be shared in issues.
+The doctor is safe by default: it reports first, explains what it found, and only changes files when you explicitly ask it to.
 
-## Installation
+## Who This Is For
 
-There are two supported installation paths.
+Use this if Codex Desktop:
 
-### 1. Install from the Codex Plugin Marketplace
+- keeps showing `Reconnecting`;
+- reconnects several times before answering;
+- opens a window that never recovers after a reconnect failure;
+- works only after you open a new window;
+- started failing after your proxy app, network, or Codex version changed.
 
-Add this repository as a Codex plugin marketplace, then install the plugin from that marketplace:
+## Install
+
+Run these commands in your system terminal
+
+On macOS, open **Terminal.app**. On Linux or WSL, open your normal shell.
 
 ```bash
 codex plugin marketplace add baixinpan/codex-reconnecting-doctor
 codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
 ```
 
-If the marketplace has already been added and you only want to refresh it, run:
+Then restart Codex Desktop.
+
+If you prefer the app UI, run only the first command in Terminal, then open Codex **Plugins**, choose **Codex Reconnecting Doctor**, and install it there.
+
+## Use
+
+After installation, ask Codex:
+
+```text
+Use $codex-reconnecting-doctor to diagnose why Codex Desktop is stuck reconnecting.
+```
+
+For an automatic repair, ask:
+
+```text
+Use $codex-reconnecting-doctor to diagnose and fix my Codex Desktop reconnecting issue.
+```
+
+Codex will run the bundled doctor script, show the evidence, and explain whether you need to restart Codex Desktop.
+
+## Update
+
+Run these commands in Terminal:
 
 ```bash
 codex plugin marketplace upgrade codex-reconnecting-doctor
+codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
 ```
 
-You can also install through the Codex app UI after adding the marketplace: open **Plugins**, choose **Codex Reconnecting Doctor**, then install `codex-reconnecting-doctor`.
+Restart Codex Desktop after updating.
 
-### 2. Install from Source
+## Uninstall
 
-Clone the repository:
+Run this in Terminal:
+
+```bash
+codex plugin remove codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+## What It Checks
+
+- `~/.codex/.env` proxy variables.
+- `~/.codex/config.toml` active provider settings.
+- Local HTTP and mixed proxy ports.
+- macOS system proxy settings.
+- Linux and WSL environment proxy variables.
+- Whether a proxy port really supports HTTPS tunneling with HTTP CONNECT.
+- Whether the active provider may need `supports_websockets = false`.
+
+## Safety
+
+- The default diagnosis does not modify files.
+- Proxy settings are written only when repair is explicitly requested.
+- Existing files are backed up before modification.
+- Ports are tested before being written to `HTTP_PROXY` or `HTTPS_PROXY`.
+- Reports redact sensitive-looking URL credentials and tokens by default.
+
+## Advanced: Source Install
+
+Most users should use the plugin install above.
+
+Use source install only if you want to inspect, modify, or run the project manually:
 
 ```bash
 git clone https://github.com/baixinpan/codex-reconnecting-doctor.git
 cd codex-reconnecting-doctor
 ```
 
-For local skill development, copy or symlink the source skill into your Codex skills directory:
-
-```bash
-mkdir -p ~/.codex/skills
-ln -s "$PWD" ~/.codex/skills/codex-reconnecting-doctor
-```
-
-For local plugin development, add the cloned repository as a local marketplace:
-
-```bash
-codex plugin marketplace add "$PWD"
-codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
-```
-
-Restart Codex Desktop after installing.
-
-Note: OpenAI-curated public Plugin Directory publishing is not currently a self-serve flow. This repository is distributed as a public GitHub marketplace source and as source code.
-
-## Use
-
-Ask Codex:
-
-```text
-Use $codex-reconnecting-doctor to diagnose why Codex Desktop is stuck reconnecting.
-```
-
-The bundled script is safe by default:
+Run the doctor script directly:
 
 ```bash
 python3 scripts/codex_reconnect_doctor.py
 python3 scripts/codex_reconnect_doctor.py --json
 python3 scripts/codex_reconnect_doctor.py --fix-env --dry-run
 python3 scripts/codex_reconnect_doctor.py --fix-env
+python3 scripts/codex_reconnect_doctor.py --disable-websockets --dry-run
 python3 scripts/codex_reconnect_doctor.py --disable-websockets
 ```
 
-By default the report redacts sensitive-looking URL credentials and tokens. Use `--include-private` only for local debugging.
+## Distribution Notes
 
-## What It Checks
-
-- Codex home, `~/.codex/.env`, and `~/.codex/config.toml`.
-- Active provider, base URL, direct provider reachability, and `supports_websockets`.
-- Environment proxy variables, macOS system proxy, Windows/WSL environment proxy, listener processes, and common local proxy ports.
-- HTTP CONNECT support before writing `HTTP_PROXY` or `HTTPS_PROXY`.
-- Stale or missing proxy config and WebSocket fallback recommendations.
-
-## Compatibility
-
-- macOS Codex Desktop with Clash Verge/mihomo, Surge, sing-box, V2Ray/Xray, Loon, or system HTTP proxy.
-- Linux environments with env proxies, `ss`/`lsof`, and HTTP-compatible local proxy clients.
-- Windows/WSL diagnostics through environment variables and WSL-visible listeners, with manual confirmation for Windows-native proxy ports.
-
-## Safety
-
-- No files are changed unless `--fix-env` or `--disable-websockets` is provided.
-- Use `--dry-run` to preview edits.
-- Existing config files are backed up before modification.
-- Proxy ports are verified with HTTP CONNECT before they are written.
-
-## Repository Layout
-
-```text
-.agents/plugins/marketplace.json
-plugins/codex-reconnecting-doctor/.codex-plugin/plugin.json
-plugins/codex-reconnecting-doctor/skills/codex-reconnecting-doctor/SKILL.md
-```
-
-The root `SKILL.md` is kept for local skill development. The installable plugin copies the same skill under `plugins/codex-reconnecting-doctor/skills/`.
+This repository is a public Codex plugin marketplace source. OpenAI-curated public Plugin Directory publishing is not currently a self-serve flow, so users install this plugin by adding this GitHub repository as a marketplace source.
 
 ## License
 
