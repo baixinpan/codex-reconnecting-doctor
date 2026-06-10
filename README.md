@@ -2,7 +2,7 @@
 
 [中文文档](README.zh-CN.md)
 
-A Codex plugin that helps diagnose and repair Codex Desktop `Reconnecting` loops caused by proxy changes, broken proxy inheritance, WebSocket/WSS transport failures, or stale Codex configuration.
+A Codex skill/plugin that helps diagnose and repair Codex Desktop `Reconnecting` loops caused by proxy changes, broken proxy inheritance, WebSocket/WSS transport failures, or stale Codex configuration.
 
 The doctor is safe by default: it reports first, explains what it found, and only changes files when you explicitly ask it to.
 
@@ -16,20 +16,17 @@ Use this if Codex Desktop:
 - works only after you open a new window;
 - started failing after your proxy app, network, or Codex version changed.
 
-## Install
+## Recommended Install
 
-Run these commands in your system terminal
+The easiest way is to install the skill from inside Codex. Paste this into the Codex chat box:
 
-On macOS, open **Terminal.app**. On Linux or WSL, open your normal shell.
-
-```bash
-codex plugin marketplace add baixinpan/codex-reconnecting-doctor
-codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```text
+Use $skill-installer to install https://github.com/baixinpan/codex-reconnecting-doctor/tree/main/plugins/codex-reconnecting-doctor/skills/codex-reconnecting-doctor
 ```
 
-Then restart Codex Desktop.
+Restart Codex Desktop after installation.
 
-If you prefer the app UI, run only the first command in Terminal, then open Codex **Plugins**, choose **Codex Reconnecting Doctor**, and install it there.
+This path does not require the `codex` command to be available in your terminal.
 
 ## Use
 
@@ -47,20 +44,48 @@ Use $codex-reconnecting-doctor to diagnose and fix my Codex Desktop reconnecting
 
 Codex will run the bundled doctor script, show the evidence, and explain whether you need to restart Codex Desktop.
 
+## Alternative: Install as a Plugin
+
+Use this if you already have the `codex` CLI available in Terminal and want to install through the Codex plugin system.
+
+Run in your system terminal:
+
+```bash
+codex plugin marketplace add baixinpan/codex-reconnecting-doctor
+codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+If Terminal says `codex: command not found` on macOS, use the Codex Desktop bundled CLI:
+
+```bash
+/Applications/Codex.app/Contents/Resources/codex plugin marketplace add baixinpan/codex-reconnecting-doctor
+/Applications/Codex.app/Contents/Resources/codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+Restart Codex Desktop after installation.
+
+Note: this plugin is not searchable in the default OpenAI-curated Plugin Directory. It appears in Codex Plugins only after you add this GitHub repository as a marketplace source.
+
 ## Update
 
-Run these commands in Terminal:
+If installed with `$skill-installer`, ask Codex to reinstall the same GitHub URL.
+
+If installed as a plugin, run in Terminal:
 
 ```bash
 codex plugin marketplace upgrade codex-reconnecting-doctor
 codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
 ```
 
-Restart Codex Desktop after updating.
-
 ## Uninstall
 
-Run this in Terminal:
+If installed as a skill, remove the skill folder from your Codex skills directory, then restart Codex:
+
+```bash
+rm -rf ~/.codex/skills/codex-reconnecting-doctor
+```
+
+If installed as a plugin, run:
 
 ```bash
 codex plugin remove codex-reconnecting-doctor@codex-reconnecting-doctor
@@ -84,11 +109,11 @@ codex plugin remove codex-reconnecting-doctor@codex-reconnecting-doctor
 - Ports are tested before being written to `HTTP_PROXY` or `HTTPS_PROXY`.
 - Reports redact sensitive-looking URL credentials and tokens by default.
 
-## Advanced: Source Install
+## Advanced: Source Usage
 
-Most users should use the plugin install above.
+Most users should install through `$skill-installer`.
 
-Use source install only if you want to inspect, modify, or run the project manually:
+Use source only if you want to inspect, modify, or run the doctor script manually:
 
 ```bash
 git clone https://github.com/baixinpan/codex-reconnecting-doctor.git
@@ -108,7 +133,7 @@ python3 scripts/codex_reconnect_doctor.py --disable-websockets
 
 ## Distribution Notes
 
-This repository is a public Codex plugin marketplace source. OpenAI-curated public Plugin Directory publishing is not currently a self-serve flow, so users install this plugin by adding this GitHub repository as a marketplace source.
+This repository supports both direct skill installation through `$skill-installer` and plugin installation through a public GitHub marketplace source. OpenAI-curated public Plugin Directory publishing is not currently a self-serve flow.
 
 ## License
 

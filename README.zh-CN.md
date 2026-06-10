@@ -2,13 +2,13 @@
 
 [English](README.md)
 
-这是一个 Codex 插件，用来诊断和修复 Codex Desktop 反复 `Reconnecting` 的问题。常见原因包括：代理端口变化、Codex 没有继承代理配置、WebSocket/WSS 连接失败、Codex 配置过期等。
+这是一个 Codex skill/plugin，用来诊断和修复 Codex Desktop 反复 `Reconnecting` 的问题。常见原因包括：代理端口变化、Codex 没有继承代理配置、WebSocket/WSS 连接失败、Codex 配置过期等。
 
 默认情况下它只诊断、不改文件。只有你明确要求修复时，它才会写配置，并且会先备份。
 
 ## 适合谁
 
-如果你遇到下面这些情况，可以安装这个插件：
+如果你遇到下面这些情况，可以安装这个工具：
 
 - Codex Desktop 一直显示 `Reconnecting`；
 - 每次回答前都要重连很多次；
@@ -16,20 +16,17 @@
 - 必须开新窗口才能继续用；
 - 换网络、代理软件重启、Codex 更新之后开始频繁报错。
 
-## 安装
+## 推荐安装方式
 
-下面的命令是在系统终端里输入
+最简单的方式是在 Codex 里直接安装 skill。把下面这句话粘贴到 Codex 聊天框：
 
-macOS 打开 **Terminal.app**。Linux 或 WSL 打开你平时用的 shell。
-
-```bash
-codex plugin marketplace add baixinpan/codex-reconnecting-doctor
-codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```text
+Use $skill-installer to install https://github.com/baixinpan/codex-reconnecting-doctor/tree/main/plugins/codex-reconnecting-doctor/skills/codex-reconnecting-doctor
 ```
 
 安装后重启 Codex Desktop。
 
-如果你想用 Codex App 界面安装：先在终端里运行第一条命令，然后打开 Codex 的 **Plugins** 页面，选择 **Codex Reconnecting Doctor**，再安装插件。
+这种方式不要求你的终端里有 `codex` 命令。
 
 ## 使用
 
@@ -47,20 +44,48 @@ codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
 
 Codex 会运行插件内置的诊断脚本，展示检测证据，并告诉你是否需要重启 Codex Desktop。
 
+## 可选：作为插件安装
+
+如果你的终端里已经有 `codex` CLI，并且希望通过 Codex plugin 系统安装，可以使用这种方式。
+
+在系统终端里运行：
+
+```bash
+codex plugin marketplace add baixinpan/codex-reconnecting-doctor
+codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+如果 macOS 终端提示 `codex: command not found`，可以使用 Codex Desktop 自带的 CLI 路径：
+
+```bash
+/Applications/Codex.app/Contents/Resources/codex plugin marketplace add baixinpan/codex-reconnecting-doctor
+/Applications/Codex.app/Contents/Resources/codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
+```
+
+安装后重启 Codex Desktop。
+
+注意：这个插件不能在默认 OpenAI-curated 插件市场里直接搜索到。只有先添加这个 GitHub 仓库作为 marketplace source，才会在 Codex Plugins 里出现。
+
 ## 更新
 
-在终端里运行：
+如果是用 `$skill-installer` 安装的，在 Codex 里重新安装同一个 GitHub URL 即可。
+
+如果是作为插件安装的，在终端里运行：
 
 ```bash
 codex plugin marketplace upgrade codex-reconnecting-doctor
 codex plugin add codex-reconnecting-doctor@codex-reconnecting-doctor
 ```
 
-更新后重启 Codex Desktop。
-
 ## 卸载
 
-在终端里运行：
+如果是作为 skill 安装的，删除 Codex skills 目录里的 skill 文件夹，然后重启 Codex：
+
+```bash
+rm -rf ~/.codex/skills/codex-reconnecting-doctor
+```
+
+如果是作为插件安装的，运行：
 
 ```bash
 codex plugin remove codex-reconnecting-doctor@codex-reconnecting-doctor
@@ -86,9 +111,9 @@ codex plugin remove codex-reconnecting-doctor@codex-reconnecting-doctor
 
 ## 高级：使用源码
 
-大多数用户不需要源码安装，直接使用上面的插件安装方式即可。
+大多数用户应该使用 `$skill-installer` 安装。
 
-只有在你想检查代码、修改代码、或手动运行脚本时，才需要 clone 源码：
+只有在你想检查代码、修改代码、或手动运行诊断脚本时，才需要 clone 源码：
 
 ```bash
 git clone https://github.com/baixinpan/codex-reconnecting-doctor.git
@@ -108,7 +133,7 @@ python3 scripts/codex_reconnect_doctor.py --disable-websockets
 
 ## 分发说明
 
-这个仓库是一个公开的 Codex plugin marketplace source。OpenAI-curated 公共插件目录目前不是自助上架流程，所以用户通过添加这个 GitHub 仓库作为 marketplace source 来安装插件。
+这个仓库同时支持通过 `$skill-installer` 直接安装 skill，也支持通过公开 GitHub marketplace source 安装 plugin。OpenAI-curated 公共插件目录目前不是自助上架流程。
 
 ## 许可证
 
