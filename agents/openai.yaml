@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Reconnect Doctor"
+  short_description: "Diagnose and repair Codex reconnect loops"
+  default_prompt: "Use $codex-reconnecting-doctor to diagnose Codex Desktop reconnecting and repair proxy or transport settings."
